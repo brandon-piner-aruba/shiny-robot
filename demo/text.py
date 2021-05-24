@@ -1,2 +1,2 @@
 def get_text():
-   return "Hello toast"
+   return "Hello python 2"
