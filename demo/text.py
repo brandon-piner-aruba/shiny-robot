@@ -1,2 +1,2 @@
 def get_text(ref):
-   return "You clicked = " + str(ref) + " time(s)"
+   return "V0.1.0: You clicked = " + str(ref) + " time(s)"
