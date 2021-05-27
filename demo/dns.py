@@ -3,6 +3,7 @@ import dns.message
 import dns.query
 import dns.flags
 import time
+import statistics
 
 
 def dns_time(domain='stackoverflow.com'):
@@ -16,8 +17,13 @@ def dns_time(domain='stackoverflow.com'):
     request.flags |= dns.flags.AD
     request.find_rrset(request.additional, dns.name.root, ADDITIONAL_RDCLASS,
                        dns.rdatatype.OPT, create=True, force_unique=True)
+    dns_times = []
+    for a in range(20):
+        dns_start = time.time()
+        response = dns.query.udp(request, name_server)
+        dns_end = time.time()
+        dns_time = (dns_end - dns_start) * 1000
+        dns_times.append(dns_time)
+    dns_mean = statistics.mean(dns_times)
 
-    dns_start = time.time()
-    response = dns.query.udp(request, name_server)
-    dns_end = time.time()
-    return 'DNS time            = %.2f ms' % ((dns_end - dns_start) * 1000)
+    return 'DNS time            = %.2f ms' % (dns_mean)
